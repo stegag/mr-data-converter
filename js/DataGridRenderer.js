@@ -221,7 +221,34 @@ var DataGridRenderer = {
     return outputText;
   },
   
-  
+    //---------------------------------------
+    // hanyu
+    //---------------------------------------
+    hanyu: function (dataGrid, headerNames, headerTypes, indent, newLine) {
+        //inits...
+        var commentLine = "//";
+        var commentLineEnd = "";
+        var outputText = "";
+        var numRows = dataGrid.length;
+        var numColumns = headerNames.length;
+
+        //begin render loop
+        for (var i = 0; i < numColumns; i++) {
+            outputText += headerNames[i] + '.push(';
+            for (var j = 0; j < numRows; j++) {
+                if ((headerTypes[i] == "int") || (headerTypes[i] == "float")) {
+                    outputText += dataGrid[j][i] || 0;
+                } else {
+                    outputText += '"' + (dataGrid[j][i] || "") + '"';
+                }
+                if (j < (numRows - 1)) { outputText += "," };
+            };
+            outputText += ");";
+            if (i < (numColumns - 1)) { outputText += newLine };
+        };
+        return outputText;
+    },
+
 
   //---------------------------------------
   // JSON Dictionary
